@@ -1,0 +1,8 @@
+.vs/
+.vscode/
+.idea/
+**/__pycache__
+.git/
+LaTeX/
+**.png
+**.jpg
