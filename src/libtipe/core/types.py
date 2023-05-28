@@ -32,3 +32,13 @@ class CalibrationResult:
     
     def __repr__(self) -> str:
         return self.__str__()
+
+class CalibrationSave:
+    def __init__(self, intrinsic, extrinsic, projection, homography, translation, rotation):
+        self.intrinsic = intrinsic
+        self.extrinsic = extrinsic
+        self.projection = projection
+        self.homography = homography
+        self.translation = translation
+        self.rotation = rotation
+        self.path = 0

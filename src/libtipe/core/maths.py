@@ -20,4 +20,4 @@ def intersection(p1, u1, p2, u2):
     distance = np.linalg.norm(v, 2)*abs(T[2])
     return (milieu, distance)
 
-# print("intersection\n", intersection(np.array([0, 0, 1]), np.array([1, -1, 1]), np.array([0, 0, -1]), np.array([1, 1, 1])))
+# print("intersection\n", intersection(np.array([1, 0, 0]), np.array([-2, 2, 2]), np.array([-1, 0, 0]), np.array([1, 1, 1])))

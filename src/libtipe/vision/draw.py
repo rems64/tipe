@@ -34,5 +34,5 @@ def draw_point(img, coords, color=(0, 255, 0), r=4):
     cv2.circle(img, (int(coords[0]), int(coords[1])), r, color, -1)
 
 
-def draw_point_mat(img, matrice, point, color=(0, 255, 0)):
-    draw_point(img, cast_down(matrice@np.append(point, 1)), color)
+def draw_point_mat(img, matrice, point, color=(0, 255, 0), r=4):
+    draw_point(img, cast_down(matrice@np.append(point, 1)), color, r)
