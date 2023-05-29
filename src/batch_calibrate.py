@@ -3,6 +3,7 @@ import pathlib
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--size", nargs=1, default=["9x6"])
+parser.add_argument("--input", required=True)
 parser.add_argument("--output", default="calibration.json")
 args = parser.parse_args()
 
@@ -12,15 +13,25 @@ chessboard_size = (int(chessboard_size[0]), int(chessboard_size[1]))
 from libtipe import *
 import traceback
 
+def insert_numero(path, numero):
+    parts = path.split(".")
+    result = ""
+    for i in range(len(parts)-2):
+        result+=parts[i]+"."
+    result+=parts[-2]+f"_{numero}."+parts[-1]
+    return result
+    
 
 try:
     images = []
     model_points_list = []
     image_points_list = []
     
-    paths = load_batch("../mesures/calibration_blender_2/*.png")
+    # paths = load_batch("../mesures/calibration_blender_4/*.png")
+    paths = load_batch(args.input+"/*.png")
     for path in paths:
         image = cv2.imread(path)
+        image_size = np.array(image.shape[:-1])
         images.append(image)
         
         gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
@@ -34,8 +45,7 @@ try:
         matrice = P@extrinsic
         calib_save = CalibrationSave(P, extrinsic, matrice, calibration_results[i].homography, calibration_results[i].translation, calibration_results[i].rotation)
         calib_save.path = str(pathlib.Path(paths[i]).absolute().resolve())
-        parts = args.output.split(".")
-        filepath = f"{parts[0]}_{i}.{parts[1]}"
+        filepath = insert_numero(args.output, i)
         print(filepath)
         save_calibration(filepath, calib_save)
 

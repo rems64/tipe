@@ -68,7 +68,7 @@ def calibrate(model_points:list[list[np.ndarray]], image_points:list[list[np.nda
     
     A = np.array([[alpha*lambd, 0    , u0*lambd],
                   [0    , beta*lambd , v0*lambd],
-                  [0    , 0    , 1 ]])
+                  [0    , 0          , 1 ]])
     
     A_inv = linalg.inv(A)
     results = []
@@ -81,8 +81,11 @@ def calibrate(model_points:list[list[np.ndarray]], image_points:list[list[np.nda
         l2 = 1/linalg.norm(A_inv@h2)
         l = (l1+l2)/2
         r1 = l*A_inv@h1
+        r1/=linalg.norm(r1)
         r2 = l*A_inv@h2
+        r2/=linalg.norm(r2)
         r3 = np.cross(r1, r2)
+        r3/=linalg.norm(r3)
         R = np.hstack((np.atleast_2d(r1).T, np.atleast_2d(r2).T, np.atleast_2d(r3).T))
         t = l*A_inv@h3
         results.append(CalibrationResult(H, t, R))

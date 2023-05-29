@@ -3,14 +3,18 @@ from ..core.types import *
 from ..core.log import *
 
 def extract_features_from_chessboard(image, pattern_size=(7,7)):
-    retval, corners = cv2.findChessboardCorners(image, pattern_size, flags=cv2.CALIB_CB_FAST_CHECK)
+    retval, corners = cv2.findChessboardCorners(image, pattern_size)
     show = image.copy()
     show = cv2.cvtColor(show, cv2.COLOR_GRAY2BGR)
     if not retval:
         raise FeatureNotFound
     
-    corners = cv2.cornerSubPix(image, corners, (11, 11), (-1, -1), criteria=(cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001))
-    cv2.drawChessboardCorners(show, pattern_size, corners, retval)
+    # corners = cv2.cornerSubPix(image, corners, (11, 11), (-1, -1), criteria=(cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001))
+    corners = cv2.cornerSubPix(image, corners, (10, 10), (-1, -1), criteria=(cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001))
+    # cv2.drawChessboardCorners(show, pattern_size, corners, retval)
+    # cv2.imshow("ERROR", show)
+    # cv2.waitKey(0)
+    # cv2.drawChessboardCorners(show, pattern_size, corners, retval)
     # cv2.imshow("Plateau detecte", show)
     # cv2.waitKey(0)
     n = corners.shape[0]
